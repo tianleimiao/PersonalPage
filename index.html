@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Name — Creative Studio</title>
+    <meta
+      name="description"
+      content="Personal portfolio and studio landing — dark mode, agency aesthetic."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              accent: "#3b82f6",
+            },
+            fontFamily: {
+              heading: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+              body: ["Inter", "system-ui", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="font-body antialiased bg-neutral-900 text-neutral-100 min-h-screen">
+    <!-- Shared SVG defs: beam gradients for lines & noodles -->
+    <svg class="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
+      <defs>
+        <linearGradient id="beam-gradient-v" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#3b82f6" stop-opacity="0" class="beam-stop-animated" />
+          <stop offset="45%" stop-color="#3b82f6" stop-opacity="0.9" class="beam-stop-animated" />
+          <stop offset="55%" stop-color="#60a5fa" stop-opacity="0.7" class="beam-stop-animated" />
+          <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" class="beam-stop-animated" />
+        </linearGradient>
+        <linearGradient id="beam-gradient-noodle" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15" />
+          <stop offset="50%" stop-color="#60a5fa" stop-opacity="0.85" />
+          <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.15" />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- Hero @hero -->
+    <header
+      class="relative min-h-[92vh] flex flex-col justify-center px-6 md:px-12 lg:px-20 overflow-hidden border-b border-neutral-800/80 shadow-sm"
+    >
+      <!-- Decorative vertical beams -->
+      <div
+        class="pointer-events-none absolute inset-0 flex justify-between px-[8%] md:px-[12%] opacity-60"
+        aria-hidden="true"
+      >
+        <svg class="h-full w-3" viewBox="0 0 12 800" preserveAspectRatio="none">
+          <line x1="6" y1="0" x2="6" y2="800" class="beam-line-vertical" vector-effect="non-scaling-stroke" />
+        </svg>
+        <svg class="h-full w-3 hidden sm:block" viewBox="0 0 12 800" preserveAspectRatio="none">
+          <line x1="6" y1="0" x2="6" y2="800" class="beam-line-vertical" vector-effect="non-scaling-stroke" />
+        </svg>
+        <svg class="h-full w-3 hidden md:block" viewBox="0 0 12 800" preserveAspectRatio="none">
+          <line x1="6" y1="0" x2="6" y2="800" class="beam-line-vertical" vector-effect="non-scaling-stroke" />
+        </svg>
+        <svg class="h-full w-3" viewBox="0 0 12 800" preserveAspectRatio="none">
+          <line x1="6" y1="0" x2="6" y2="800" class="beam-line-vertical" vector-effect="non-scaling-stroke" />
+        </svg>
+      </div>
+
+      <!-- Noodles: curved connectors (viewBox coords — % not valid in path d) -->
+      <svg
+        class="pointer-events-none absolute inset-0 w-full h-full opacity-40"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          class="noodle-path"
+          vector-effect="non-scaling-stroke"
+          d="M 6 58 Q 28 32 44 48 T 74 40"
+        />
+        <path
+          class="noodle-path"
+          vector-effect="non-scaling-stroke"
+          d="M 94 38 Q 68 62 52 52 T 26 58"
+          style="animation-delay: -1.2s"
+          stroke-dasharray="6 20"
+        />
+      </svg>
+
+      <div class="relative z-10 max-w-6xl mx-auto w-full hero-animate-group">
+        <p class="text-accent font-medium tracking-widest uppercase text-sm mb-6 font-heading">
+          Studio · Product · Launch
+        </p>
+        <h1
+          class="font-heading font-bold text-[clamp(3rem,8vw,4rem)] leading-[1.05] tracking-[0.08em] text-white mb-8"
+        >
+          <span class="block">Your Name</span>
+          <span class="block text-neutral-400 text-[clamp(1.35rem,3.5vw,1.75rem)] tracking-[0.06em] mt-4 font-semibold">
+            <span class="text-neutral-500">I craft</span>
+            <span id="word-slot" class="word-slot text-accent ml-2" aria-live="polite"></span>
+            <span class="text-neutral-500"> that convert.</span>
+          </span>
+        </h1>
+        <p class="text-neutral-400 text-[clamp(1.1rem,2vw,1.25rem)] max-w-2xl leading-relaxed mb-12">
+          Welcome to <strong class="text-white">your-app</strong> — a
+          <strong class="text-neutral-200">creative &amp; product</strong> studio that
+          <strong class="text-neutral-200">ships polished experiences</strong> from first sketch to production. Agency
+          precision, personal touch.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="#feature"
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-lg bg-accent text-white font-heading font-semibold tracking-wide shadow-sm hover:bg-blue-600 transition-colors"
+          >
+            View work
+          </a>
+          <a
+            href="#pricing"
+            class="inline-flex items-center justify-center px-8 py-3.5 rounded-lg border border-neutral-800 bg-neutral-900/80 text-neutral-200 font-heading font-semibold tracking-wide shadow-sm hover:border-accent/50 transition-colors"
+          >
+            Collaborate
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Features @feature -->
+    <section id="feature" class="py-24 md:py-32 px-6 md:px-12 lg:px-20 border-b border-neutral-800/80 shadow-sm">
+      <div class="max-w-6xl mx-auto reveal-section">
+        <h2
+          class="font-heading font-bold text-[clamp(2.5rem,5vw,3.75rem)] tracking-[0.1em] text-white mb-4 reveal-item"
+          data-delay="0"
+        >
+          Capabilities
+        </h2>
+        <p
+          class="text-neutral-400 text-[clamp(1.1rem,2vw,1.35rem)] max-w-2xl mb-16 reveal-item"
+          data-delay="1"
+        >
+          End-to-end support with a holodex-style focus: the core offering front and center, supporting skills in depth
+          on the sides.
+        </p>
+        <div class="holodex-track">
+          <article class="holodex-item flashlight-card p-8 reveal-item" data-delay="2">
+            <div class="card-inner">
+              <h3 class="font-heading font-bold text-xl tracking-wide text-white mb-3">Brand systems</h3>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                Visual language, typography, and motion guidelines that scale across touchpoints.
+              </p>
+            </div>
+          </article>
+          <article class="holodex-item flashlight-card p-8 reveal-item" data-delay="3">
+            <div class="card-inner">
+              <h3 class="font-heading font-bold text-xl tracking-wide text-white mb-3">Product UI</h3>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                High-fidelity interfaces, design systems, and handoff-ready specs for engineering teams.
+              </p>
+            </div>
+          </article>
+          <article class="holodex-item flashlight-card p-8 reveal-item" data-delay="4">
+            <div class="card-inner">
+              <h3 class="font-heading font-bold text-xl tracking-wide text-white mb-3">Launch &amp; growth</h3>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                Landing pages, campaigns, and iterative optimization once you are live.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonial @testimonial -->
+    <section class="py-24 md:py-32 px-6 md:px-12 lg:px-20 border-b border-neutral-800/80 shadow-sm relative overflow-hidden">
+      <svg
+        class="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-3/4 opacity-30"
+        viewBox="0 0 200 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path class="noodle-path" vector-effect="non-scaling-stroke" d="M 0 50 C 60 18 140 82 200 50" />
+      </svg>
+      <div class="max-w-4xl mx-auto reveal-section relative z-10">
+        <p class="text-accent font-heading font-semibold tracking-widest uppercase text-sm mb-8 reveal-item" data-delay="0">
+          Testimonial
+        </p>
+        <blockquote
+          class="font-heading font-bold text-[clamp(1.75rem,4vw,2.25rem)] leading-snug tracking-wide text-white mb-10 reveal-item"
+          data-delay="1"
+        >
+          “Rare mix of taste and execution. They treated our launch like their own — clear process, fast iterations, and
+          a dark-mode-ready product we are proud to show investors.”
+        </blockquote>
+        <footer class="reveal-item" data-delay="2">
+          <cite class="not-italic text-neutral-400">
+            <span class="text-white font-heading font-semibold tracking-wide">Alex Rivera</span>
+            · Founder, Northwind Labs
+          </cite>
+        </footer>
+      </div>
+    </section>
+
+    <!-- Pricing @pricing -->
+    <section id="pricing" class="py-24 md:py-32 px-6 md:px-12 lg:px-20 border-b border-neutral-800/80 shadow-sm">
+      <div class="max-w-6xl mx-auto reveal-section">
+        <h2
+          class="font-heading font-bold text-[clamp(2.5rem,5vw,3.75rem)] tracking-[0.1em] text-white mb-4 reveal-item"
+          data-delay="0"
+        >
+          Engagements
+        </h2>
+        <p class="text-neutral-400 text-[clamp(1.1rem,2vw,1.35rem)] max-w-2xl mb-14 reveal-item" data-delay="1">
+          Transparent starting points. Tailored scopes after a short discovery call.
+        </p>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="flashlight-card reveal-item" data-delay="2">
+            <div class="card-inner p-8">
+              <h3 class="font-heading font-bold text-lg tracking-wide text-white mb-2">Discovery</h3>
+              <p class="text-3xl font-heading font-bold text-accent mb-6">$2.5k<span class="text-sm text-neutral-500 font-normal"> / sprint</span></p>
+              <ul class="text-neutral-400 text-sm space-y-3">
+                <li>· Audit &amp; roadmap</li>
+                <li>· Competitive landscape</li>
+                <li>· 2 workshops</li>
+              </ul>
+            </div>
+          </div>
+          <div class="flashlight-card reveal-item ring-1 ring-accent/30 md:scale-[1.02]" data-delay="3">
+            <div class="card-inner p-8">
+              <p class="text-accent text-xs font-heading font-bold tracking-widest uppercase mb-2">Popular</p>
+              <h3 class="font-heading font-bold text-lg tracking-wide text-white mb-2">Product build</h3>
+              <p class="text-3xl font-heading font-bold text-accent mb-6">Custom</p>
+              <ul class="text-neutral-400 text-sm space-y-3">
+                <li>· UI/UX + design system</li>
+                <li>· Prototype to handoff</li>
+                <li>· Async + weekly sync</li>
+              </ul>
+            </div>
+          </div>
+          <div class="flashlight-card reveal-item" data-delay="4">
+            <div class="card-inner p-8">
+              <h3 class="font-heading font-bold text-lg tracking-wide text-white mb-2">Partnership</h3>
+              <p class="text-3xl font-heading font-bold text-accent mb-6">Retainer</p>
+              <ul class="text-neutral-400 text-sm space-y-3">
+                <li>· Dedicated monthly capacity</li>
+                <li>· Growth &amp; experiments</li>
+                <li>· Priority support</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer @footer -->
+    <footer class="py-16 px-6 md:px-12 lg:px-20 bg-neutral-950 border-t border-neutral-800/80 shadow-sm">
+      <div class="max-w-6xl mx-auto reveal-section flex flex-col md:flex-row md:items-end md:justify-between gap-10">
+        <div>
+          <p class="font-heading font-bold text-2xl tracking-[0.12em] text-white mb-3 reveal-item" data-delay="0">
+            your-app
+          </p>
+          <p class="text-neutral-500 text-sm max-w-md reveal-item" data-delay="1">
+            Personal site template for GitHub Pages. Replace copy, links, and analytics. Built with Tailwind + custom
+            motion.
+          </p>
+        </div>
+        <nav class="flex flex-wrap gap-8 reveal-item" data-delay="2" aria-label="Footer">
+          <a href="#feature" class="text-neutral-400 hover:text-accent text-sm transition-colors">Work</a>
+          <a href="#pricing" class="text-neutral-400 hover:text-accent text-sm transition-colors">Pricing</a>
+          <a href="https://github.com" class="text-neutral-400 hover:text-accent text-sm transition-colors">GitHub</a>
+          <a href="mailto:hello@example.com" class="text-neutral-400 hover:text-accent text-sm transition-colors">Email</a>
+        </nav>
+        <p class="text-neutral-600 text-xs reveal-item" data-delay="3">© <span id="y"></span> Your Name. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
