@@ -1,7 +1,8 @@
 "use client";
 
 import { useLandingEffects } from "@/hooks/use-landing-effects";
-import { ShaderAnimation } from "@/components/ui/shader-animation";
+import { AnimatedShaderBackground } from "@/components/ui/animated-shader-background";
+import { Brain, Infinity, Rocket, Shield } from "lucide-react";
 import { SvgBeamDefs } from "@/components/svg-beam-defs";
 import { WordRotator } from "@/components/word-rotator";
 
@@ -19,7 +20,7 @@ export function LandingPage() {
         id="hero-intro"
         className="relative flex min-h-[92vh] flex-col justify-center overflow-hidden border-b border-neutral-800/80 bg-neutral-950 px-6 shadow-sm md:px-12 lg:px-20"
       >
-        <ShaderAnimation className="pointer-events-none absolute inset-0 z-0 h-full min-h-[92vh] w-full opacity-75" />
+        <AnimatedShaderBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-[92vh] w-full opacity-80" />
 
         <div
           className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-neutral-950/50 via-neutral-950/75 to-neutral-950"
@@ -75,6 +76,15 @@ export function LandingPage() {
             <p className="mb-6 font-heading text-sm font-medium uppercase tracking-widest text-blue-500">
               Studio · Product · Launch
             </p>
+            <div
+              className="mb-6 flex justify-center gap-8 text-blue-400/50 md:justify-start"
+              aria-hidden
+            >
+              <Infinity className="h-5 w-5 animate-float" strokeWidth={1.5} />
+              <Rocket className="h-5 w-5 animate-float" style={{ animationDelay: "0.15s" }} strokeWidth={1.5} />
+              <Shield className="h-5 w-5 animate-float" style={{ animationDelay: "0.3s" }} strokeWidth={1.5} />
+              <Brain className="h-5 w-5 animate-float" style={{ animationDelay: "0.45s" }} strokeWidth={1.5} />
+            </div>
             <h1 className="mb-8 font-heading text-[clamp(3rem,8vw,4rem)] font-bold leading-[1.05] tracking-[0.08em] text-white">
               <span className="animate-gradient-x block bg-gradient-to-r from-white via-blue-100 to-neutral-400 bg-clip-text text-transparent">
                 Your Name
