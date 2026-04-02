@@ -93,6 +93,89 @@
     if (stops.length) requestAnimationFrame(tick);
   }
 
+  function initHeroOnView() {
+    var panels = document.querySelectorAll("[data-hero-on-view]");
+    if (!panels.length) return;
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { root: null, rootMargin: "0px 0px -12% 0px", threshold: 0.15 }
+    );
+    panels.forEach(function (el) {
+      io.observe(el);
+    });
+  }
+
+  /* Canvas Particles for Hero 1 */
+  function initParticles() {
+    var canvas = document.getElementById("hero-particles");
+    if (!canvas) return;
+    var ctx = canvas.getContext("2d");
+    var width, height;
+    var particles = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = canvas.parentElement.offsetHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function Particle() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.6;
+      this.vy = (Math.random() - 0.5) * 0.6;
+      this.radius = Math.random() * 1.5 + 0.5;
+    }
+
+    Particle.prototype.update = function () {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > width) this.vx *= -1;
+      if (this.y < 0 || this.y > height) this.vy *= -1;
+    };
+
+    Particle.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(59, 130, 246, 0.5)";
+      ctx.fill();
+    };
+
+    for (var i = 0; i < 80; i++) {
+      particles.push(new Particle());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      for (var i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (var j = i + 1; j < particles.length; j++) {
+          var dx = particles[i].x - particles[j].x;
+          var dy = particles[i].y - particles[j].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = "rgba(59, 130, 246, " + (0.2 - dist / 600) + ")";
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initFlashlightCards();
     initWordRotator();
@@ -100,5 +183,7 @@
     window.addEventListener("resize", updateHolodex);
     initReveal();
     initBeamSvg();
+    initHeroOnView();
+    initParticles();
   });
 })();
