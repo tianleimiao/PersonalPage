@@ -78,7 +78,7 @@ export function LandingPage() {
           <div className="hero-animate-group bg-transparent p-8 md:px-12 md:py-10">
             <h1 className="font-heading text-[clamp(3rem,8vw,4rem)] font-bold leading-[1.05] tracking-[0.08em] text-white">
               <span className="animate-gradient-x block bg-gradient-to-r from-white via-blue-100 to-neutral-400 bg-clip-text text-transparent">
-                Kai Tianlei Miao
+                Tianlei(Kai) Miao
               </span>
               <span className="mt-4 block text-[clamp(1.35rem,3.5vw,1.75rem)] font-semibold tracking-[0.06em] text-neutral-400">
                 <span className="text-neutral-500">I craft</span>
@@ -166,7 +166,7 @@ export function LandingPage() {
                 <div className="relative z-10 aspect-[3/4] w-full overflow-hidden rounded-2xl border border-neutral-800/90 bg-neutral-900 shadow-[0_0_40px_-12px_rgba(59,130,246,0.35)] ring-1 ring-blue-500/15">
                   <Image
                     src="/images/20260403002505_61_11.jpg"
-                    alt="Kai Tianlei Miao"
+                    alt="Tianlei(Kai) Miao"
                     fill
                     className="object-cover object-top transition-transform duration-700 ease-out hover:scale-[1.02]"
                     sizes="(max-width: 768px) 100vw, 320px"
@@ -306,7 +306,7 @@ export function LandingPage() {
             </a>
           </nav>
           <p className="reveal-item text-xs text-neutral-600" data-delay="3">
-            © {year} Kai Tianlei Miao. All rights reserved.
+            © {year} Tianlei(Kai) Miao. All rights reserved.
           </p>
         </div>
       </footer>
