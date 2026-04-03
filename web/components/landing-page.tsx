@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { useLandingEffects } from "@/hooks/use-landing-effects";
 import { AnimatedShaderBackground } from "@/components/ui/animated-shader-background";
 import { Brain, Infinity, Rocket, Shield } from "lucide-react";
@@ -55,17 +57,20 @@ export function LandingPage() {
           </svg>
         </div>
 
-        <div
-          className="hero-animate-group pointer-events-none absolute right-6 top-6 z-20 flex flex-col items-end gap-3 md:right-12 md:top-10 lg:right-20"
-        >
-          <p className="max-w-[min(100vw-3rem,20rem)] text-right font-heading text-xs font-medium uppercase tracking-widest text-blue-500 sm:text-sm">
-            AI · Product · Launch
-          </p>
-          <div className="flex justify-end gap-4 text-blue-400/50 sm:gap-6" aria-hidden>
-            <Infinity className="h-5 w-5 shrink-0 animate-float" strokeWidth={1.5} />
-            <Rocket className="h-5 w-5 shrink-0 animate-float" style={{ animationDelay: "0.15s" }} strokeWidth={1.5} />
-            <Shield className="h-5 w-5 shrink-0 animate-float" style={{ animationDelay: "0.3s" }} strokeWidth={1.5} />
-            <Brain className="h-5 w-5 shrink-0 animate-float" style={{ animationDelay: "0.45s" }} strokeWidth={1.5} />
+        <div className="hero-animate-group pointer-events-none absolute right-6 top-6 z-20 md:right-12 md:top-10 lg:right-20">
+          <div className="inline-block max-w-[min(100vw-3rem,20rem)] text-right">
+            <p className="font-heading text-xs font-medium uppercase tracking-widest text-blue-500 sm:text-sm">
+              AI · Product · Launch
+            </p>
+            <div
+              className="mt-2 flex w-full justify-between text-blue-400/50 sm:mt-2.5"
+              aria-hidden
+            >
+              <Infinity className="h-5 w-5 shrink-0 animate-float" strokeWidth={1.5} />
+              <Rocket className="h-5 w-5 shrink-0 animate-float" style={{ animationDelay: "0.15s" }} strokeWidth={1.5} />
+              <Shield className="h-5 w-5 shrink-0 animate-float" style={{ animationDelay: "0.3s" }} strokeWidth={1.5} />
+              <Brain className="h-5 w-5 shrink-0 animate-float" style={{ animationDelay: "0.45s" }} strokeWidth={1.5} />
+            </div>
           </div>
         </div>
 
@@ -88,8 +93,16 @@ export function LandingPage() {
       {/* Hero 2 */}
       <section
         id="hero-capabilities"
-        className="relative flex min-h-[92vh] flex-col justify-center overflow-hidden border-b border-neutral-800/80 px-6 shadow-sm md:px-12 lg:px-20"
+        className="relative flex min-h-[92vh] flex-col justify-center overflow-hidden border-b border-neutral-800/80 bg-neutral-950 px-6 shadow-sm md:px-12 lg:px-20"
       >
+        <div
+          className="hero2-ambient pointer-events-none absolute left-[12%] top-[20%] h-[min(28rem,50vw)] w-[min(28rem,50vw)] rounded-full bg-blue-600/15 blur-[100px] mix-blend-screen"
+          aria-hidden
+        />
+        <div
+          className="hero2-ambient-delay pointer-events-none absolute bottom-[15%] right-[8%] h-[min(22rem,45vw)] w-[min(22rem,45vw)] rounded-full bg-indigo-500/10 blur-[90px] mix-blend-screen"
+          aria-hidden
+        />
         <div
           className="pointer-events-none absolute inset-0 flex justify-between px-[10%] opacity-50 md:px-[14%]"
           aria-hidden
@@ -127,29 +140,71 @@ export function LandingPage() {
           className="hero-panel-animate reveal-section relative z-10 mx-auto flex w-full max-w-6xl flex-col justify-center py-16 md:min-h-0 md:py-24"
           data-hero-on-view
         >
-          <div className="flex flex-col gap-10 md:flex-row md:items-center md:gap-12 lg:gap-16">
-            {/* Left ~32%: swap placeholder for next/image or <img> when you have a portrait */}
+          <div className="relative flex flex-col gap-10 md:flex-row md:items-center md:gap-12 lg:gap-16">
+            <span
+              className="hero2-float-dot pointer-events-none absolute -left-2 top-1/4 h-2 w-2 rounded-full bg-blue-400/60 blur-[1px] md:left-0"
+              aria-hidden
+            />
+            <span
+              className="hero2-float-dot pointer-events-none absolute bottom-1/3 right-[20%] h-1.5 w-1.5 rounded-full bg-blue-300/50 blur-[1px] [animation-delay:-2s]"
+              aria-hidden
+            />
+
             <div
-              className="reveal-item w-full shrink-0 md:w-[32%] md:min-w-[240px] md:max-w-sm"
+              className="reveal-item relative w-full shrink-0 md:w-[32%] md:min-w-[240px] md:max-w-sm"
               data-delay="0"
             >
-              <div
-                className="aspect-[3/4] w-full rounded-2xl border border-dashed border-neutral-700/70 bg-neutral-900/30"
-                role="img"
-                aria-label="Portrait photo placeholder"
-              />
+              <div className="relative mx-auto w-full">
+                <div
+                  className="pointer-events-none absolute -inset-[3px] z-0 overflow-hidden rounded-[1.05rem] opacity-80"
+                  aria-hidden
+                >
+                  <div
+                    className="hero2-photo-orbit absolute left-1/2 top-1/2 h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,rgba(59,130,246,0.45)_95deg,transparent_190deg,rgba(96,165,250,0.25)_280deg,transparent_360deg)]"
+                  />
+                </div>
+                <div className="relative z-10 aspect-[3/4] w-full overflow-hidden rounded-2xl border border-neutral-800/90 bg-neutral-900 shadow-[0_0_40px_-12px_rgba(59,130,246,0.35)] ring-1 ring-blue-500/15">
+                  <Image
+                    src="/images/20260403002505_61_11.jpg"
+                    alt="Kai Tianlei Miao"
+                    fill
+                    className="object-cover object-top transition-transform duration-700 ease-out hover:scale-[1.02]"
+                    sizes="(max-width: 768px) 100vw, 320px"
+                  />
+                </div>
+                <div className="hero2-corner-tl z-20" aria-hidden />
+                <div className="hero2-corner-br z-20" aria-hidden />
+              </div>
             </div>
-            {/* Right: intro copy */}
-            <div className="reveal-item min-w-0 flex-1" data-delay="1">
-              <p className="mb-6 font-heading text-sm font-medium uppercase tracking-widest text-blue-500">
+            <div className="hero2-accent-line reveal-item relative min-w-0 flex-1 space-y-5 pl-6 md:pl-8" data-delay="1">
+              <p className="font-heading text-sm font-medium uppercase tracking-widest text-blue-500 drop-shadow-[0_0_20px_rgba(59,130,246,0.35)]">
                 About
               </p>
-              <p className="text-[clamp(1.05rem,2vw,1.2rem)] leading-relaxed text-neutral-400">
-                Welcome to <strong className="text-white">your-app</strong> — a{" "}
-                <strong className="text-neutral-200">creative &amp; product</strong> studio that{" "}
-                <strong className="text-neutral-200">ships polished experiences</strong> from first sketch to
-                production. Agency precision, personal touch.
-              </p>
+              <div className="space-y-5 text-[clamp(1rem,1.85vw,1.125rem)] leading-relaxed text-neutral-400">
+                <p>
+                  Most of my energy goes into <strong className="font-medium text-neutral-200">building AI products</strong>{" "}
+                  as a founder — turning ideas into software people run in{" "}
+                  <strong className="font-medium text-neutral-200">real operational environments</strong>, not slide-deck demos.
+                  I like the hard part: when data drifts, users do unexpected things, and the world doesn&apos;t match the
+                  training set.
+                </p>
+                <p>
+                  On the engineering side I work the full loop — scoping the problem, data and model choices, evaluation,
+                  and <strong className="font-medium text-neutral-200">shipping to production</strong>. I&apos;m drawn to
+                  use cases where <strong className="font-medium text-neutral-200">decisions under uncertainty</strong>{" "}
+                  actually matter: noisy inputs, high stakes, and clear feedback when the stack gets it wrong.
+                </p>
+                <p>
+                  That bias comes from years in <strong className="font-medium text-neutral-200">autonomous systems</strong>{" "}
+                  and maritime collision avoidance — COLREGs-aware planning, Radar / AIS / LiDAR / camera fusion, pipelines that
+                  had to survive real weather and traffic. The PhD gave me the modeling and optimization backbone; the
+                  founder hat is about packaging that rigor into <strong className="font-medium text-neutral-200">products</strong>{" "}
+                  customers can trust.
+                </p>
+                <p className="text-neutral-500">
+                  Outside the build: pickleball, gym, and scheduling rest like it&apos;s part of the release train.
+                </p>
+              </div>
             </div>
           </div>
           <p className="reveal-item mt-12 md:mt-16" data-delay="2">

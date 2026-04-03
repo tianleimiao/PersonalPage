@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Avoid dev-only "SegmentViewNode" / React Client Manifest errors from segment explorer (Next 15.x).
+  experimental: {
+    devtoolSegmentExplorer: false,
+  },
 };
 
 export default nextConfig;
