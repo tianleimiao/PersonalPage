@@ -182,39 +182,38 @@ export function LandingPage() {
               </p>
               <div className="space-y-5 text-[clamp(1rem,1.85vw,1.125rem)] leading-relaxed text-neutral-400">
                 <p>
-                  Most of my energy goes into <strong className="font-medium text-neutral-200">building AI products</strong>{" "}
-                  as a founder — turning ideas into software people run in{" "}
-                  <strong className="font-medium text-neutral-200">real operational environments</strong>, not slide-deck demos.
-                  I like the hard part: when data drifts, users do unexpected things, and the world doesn&apos;t match the
-                  training set.
+                  <strong className="font-medium text-neutral-200">I build AI products fast</strong> — from idea to
+                  something people actually use.
                 </p>
                 <p>
-                  On the engineering side I work the full loop — scoping the problem, data and model choices, evaluation,
-                  and <strong className="font-medium text-neutral-200">shipping to production</strong>. I&apos;m drawn to
-                  use cases where <strong className="font-medium text-neutral-200">decisions under uncertainty</strong>{" "}
-                  actually matter: noisy inputs, high stakes, and clear feedback when the stack gets it wrong.
+                  As a founder, I focus on turning concepts into{" "}
+                  <strong className="font-medium text-neutral-200">working systems</strong>, not demos.{" "}
+                  <strong className="font-medium text-neutral-200">Rapid prototyping with AI</strong> is my default: test
+                  fast, validate fast, ship fast. If it doesn&apos;t survive real users, it doesn&apos;t count.
                 </p>
                 <p>
-                  That bias comes from years in <strong className="font-medium text-neutral-200">autonomous systems</strong>{" "}
-                  and maritime collision avoidance — COLREGs-aware planning, Radar / AIS / LiDAR / camera fusion, pipelines that
-                  had to survive real weather and traffic. The PhD gave me the modeling and optimization backbone; the
-                  founder hat is about packaging that rigor into <strong className="font-medium text-neutral-200">products</strong>{" "}
-                  customers can trust.
+                  I work across the <strong className="font-medium text-neutral-200">full stack</strong> — problem framing,
+                  data, models, evaluation, and production. I care about systems that operate under uncertainty: messy inputs,
+                  unpredictable users, real consequences.
+                </p>
+                <p>
+                  My background is in <strong className="font-medium text-neutral-200">autonomous systems</strong> and
+                  maritime collision avoidance — COLREGs-aware planning, multi-sensor fusion (Radar / AIS / LiDAR /
+                  camera), and systems that had to work in real environments, not controlled ones. That&apos;s where I
+                  learned: <strong className="font-medium text-neutral-200">robustness &gt; elegance</strong>.
+                </p>
+                <p>
+                  PhD trained my thinking. Building products trained my judgment.
+                </p>
+                <p>
+                  Now I&apos;m focused on one thing: using AI to compress the time from idea → product → validation.
                 </p>
                 <p className="text-neutral-500">
-                  Outside the build: pickleball, gym, and scheduling rest like it&apos;s part of the release train.
+                  Outside of work: pickleball, gym, and treating recovery like part of the system.
                 </p>
               </div>
             </div>
           </div>
-          <p className="reveal-item mt-12 md:mt-16" data-delay="2">
-            <a
-              href="#hero-voice"
-              className="inline-flex items-center font-heading text-sm font-semibold tracking-wide text-blue-500 hover:text-blue-400"
-            >
-              Next — voices →
-            </a>
-          </p>
         </div>
       </section>
 
