@@ -1,58 +1,71 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import * as THREE from "three"
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import * as THREE from "three";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-export function ShaderAnimation() {
-  const containerRef = useRef<HTMLDivElement>(null)
+type ShaderAnimationProps = {
+  /** Fires when the intro overlay is removed (~4.5s) or immediately if reduced-motion skips it. */
+  onIntroEnd?: () => void;
+};
+
+export function ShaderAnimation({ onIntroEnd }: ShaderAnimationProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<{
-    camera: THREE.Camera
-    scene: THREE.Scene
-    renderer: THREE.WebGLRenderer
-    uniforms: any
-    animationId: number
-  } | null>(null)
+    camera: THREE.Camera;
+    scene: THREE.Scene;
+    renderer: THREE.WebGLRenderer;
+    uniforms: { time: { value: number }; resolution: { value: THREE.Vector2 } };
+    animationId: number;
+  } | null>(null);
 
-  const [isVisible, setIsVisible] = useState(true)
-  const [isFadingOut, setIsFadingOut] = useState(false)
+  const [isVisible, setIsVisible] = useState(true);
+  const [isFadingOut, setIsFadingOut] = useState(false);
+  const [skipIntro, setSkipIntro] = useState(false);
+
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setSkipIntro(true);
+      setIsVisible(false);
+      onIntroEnd?.();
+    }
+  }, [onIntroEnd]);
 
   useEffect(() => {
-    // Lock scroll during animation
-    document.body.style.overflow = "hidden"
+    if (skipIntro) return;
 
-    // Start fade out at 3 seconds
+    document.body.style.overflow = "hidden";
+
     const fadeTimer = setTimeout(() => {
-      setIsFadingOut(true)
-    }, 3000)
+      setIsFadingOut(true);
+    }, 3000);
 
-    // Unmount at 4.5 seconds (allowing 1.5s for the fade transition)
     const hideTimer = setTimeout(() => {
-      setIsVisible(false)
-      document.body.style.overflow = "" // Restore scroll
-    }, 4500)
+      setIsVisible(false);
+      document.body.style.overflow = "";
+      onIntroEnd?.();
+    }, 4500);
 
     return () => {
-      clearTimeout(fadeTimer)
-      clearTimeout(hideTimer)
-      document.body.style.overflow = ""
-    }
-  }, [])
+      clearTimeout(fadeTimer);
+      clearTimeout(hideTimer);
+      document.body.style.overflow = "";
+    };
+  }, [skipIntro, onIntroEnd]);
 
   useEffect(() => {
-    if (!isVisible || !containerRef.current) return
+    if (!isVisible || !containerRef.current || skipIntro) return;
 
-    const container = containerRef.current
+    const container = containerRef.current;
 
-    // Vertex shader
     const vertexShader = `
       void main() {
         gl_Position = vec4( position, 1.0 );
       }
-    `
+    `;
 
-    // Fragment shader
     const fragmentShader = `
       #define TWO_PI 6.2831853072
       #define PI 3.14159265359
@@ -75,103 +88,96 @@ export function ShaderAnimation() {
         
         gl_FragColor = vec4(color[0],color[1],color[2],1.0);
       }
-    `
+    `;
 
-    // Initialize Three.js scene
-    const camera = new THREE.Camera()
-    camera.position.z = 1
+    const camera = new THREE.Camera();
+    camera.position.z = 1;
 
-    const scene = new THREE.Scene()
-    const geometry = new THREE.PlaneGeometry(2, 2)
+    const scene = new THREE.Scene();
+    const geometry = new THREE.PlaneGeometry(2, 2);
 
     const uniforms = {
       time: { type: "f", value: 1.0 },
       resolution: { type: "v2", value: new THREE.Vector2() },
-    }
+    };
 
     const material = new THREE.ShaderMaterial({
-      uniforms: uniforms,
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-    })
+      uniforms,
+      vertexShader,
+      fragmentShader,
+    });
 
-    const mesh = new THREE.Mesh(geometry, material)
-    scene.add(mesh)
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
-    renderer.setPixelRatio(window.devicePixelRatio)
+    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    container.appendChild(renderer.domElement)
+    container.appendChild(renderer.domElement);
 
-    // Handle window resize
     const onWindowResize = () => {
-      if (!container) return
-      const width = container.clientWidth
-      const height = container.clientHeight
-      renderer.setSize(width, height)
-      uniforms.resolution.value.x = renderer.domElement.width
-      uniforms.resolution.value.y = renderer.domElement.height
-    }
+      if (!container) return;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      renderer.setSize(width, height);
+      uniforms.resolution.value.x = renderer.domElement.width;
+      uniforms.resolution.value.y = renderer.domElement.height;
+    };
 
-    // Initial resize
-    onWindowResize()
-    window.addEventListener("resize", onWindowResize, false)
+    onWindowResize();
+    window.addEventListener("resize", onWindowResize, false);
 
-    // Animation loop
     const animate = () => {
-      const animationId = requestAnimationFrame(animate)
-      uniforms.time.value += 0.05
-      renderer.render(scene, camera)
+      const animationId = requestAnimationFrame(animate);
+      uniforms.time.value += 0.05;
+      renderer.render(scene, camera);
 
       if (sceneRef.current) {
-        sceneRef.current.animationId = animationId
+        sceneRef.current.animationId = animationId;
       }
-    }
+    };
 
-    // Store scene references for cleanup
     sceneRef.current = {
       camera,
       scene,
       renderer,
       uniforms,
       animationId: 0,
-    }
+    };
 
-    // Start animation
-    animate()
+    animate();
 
-    // Cleanup function
     return () => {
-      window.removeEventListener("resize", onWindowResize)
+      window.removeEventListener("resize", onWindowResize);
 
       if (sceneRef.current) {
-        cancelAnimationFrame(sceneRef.current.animationId)
+        cancelAnimationFrame(sceneRef.current.animationId);
 
         if (container && sceneRef.current.renderer.domElement) {
           if (container.contains(sceneRef.current.renderer.domElement)) {
-             container.removeChild(sceneRef.current.renderer.domElement)
+            container.removeChild(sceneRef.current.renderer.domElement);
           }
         }
 
-        sceneRef.current.renderer.dispose()
-        geometry.dispose()
-        material.dispose()
+        sceneRef.current.renderer.dispose();
+        geometry.dispose();
+        material.dispose();
       }
-    }
-  }, [isVisible])
+    };
+  }, [isVisible, skipIntro]);
 
-  if (!isVisible) return null
+  if (!isVisible) return null;
 
   return (
     <div
       ref={containerRef}
       className={cn(
         "fixed inset-0 z-[9999] bg-black transition-opacity duration-[1500ms] ease-in-out",
-        isFadingOut ? "opacity-0 pointer-events-none" : "opacity-100"
+        isFadingOut ? "pointer-events-none opacity-0" : "opacity-100"
       )}
       style={{
         overflow: "hidden",
       }}
     />
-  )
+  );
 }

@@ -15,6 +15,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: "export",
   basePath: inferredBase || undefined,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: inferredBase || "",
+  },
   images: {
     unoptimized: true,
   },

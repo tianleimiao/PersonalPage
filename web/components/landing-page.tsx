@@ -1,22 +1,47 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 
+import { heroShaderBackdropClassName } from "@/components/ui/hero-shader-backdrop";
 import { useLandingEffects } from "@/hooks/use-landing-effects";
-import { AnimatedShaderBackground } from "@/components/ui/animated-shader-background";
-import { ShaderAnimation } from "@/components/ui/shader-animation";
+import { cn } from "@/lib/utils";
 import { Brain, Infinity, Rocket, Shield } from "lucide-react";
 import { SvgBeamDefs } from "@/components/svg-beam-defs";
 import { WordRotator } from "@/components/word-rotator";
 
+const ShaderAnimation = dynamic(
+  () => import("@/components/ui/shader-animation").then((m) => m.ShaderAnimation),
+  {
+    ssr: false,
+    loading: () => <div className="fixed inset-0 z-[9999] bg-black" aria-hidden />,
+  }
+);
+
+const AnimatedShaderBackground = dynamic(
+  () =>
+    import("@/components/ui/animated-shader-background").then((m) => m.AnimatedShaderBackground),
+  { ssr: false }
+);
+
 const year = new Date().getFullYear();
+const assetBase = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function LandingPage() {
+  const [introComplete, setIntroComplete] = useState(false);
+  const onIntroEnd = useCallback(() => setIntroComplete(true), []);
+
+  useEffect(() => {
+    const id = window.setTimeout(() => setIntroComplete(true), 6000);
+    return () => window.clearTimeout(id);
+  }, []);
+
   useLandingEffects();
 
   return (
     <>
-      <ShaderAnimation />
+      <ShaderAnimation onIntroEnd={onIntroEnd} />
       <SvgBeamDefs />
 
       {/* Hero 1 — shader + full intro (readable panel so content stays visible) */}
@@ -24,7 +49,17 @@ export function LandingPage() {
         id="hero-intro"
         className="relative flex min-h-[92vh] flex-col justify-center overflow-hidden border-b border-neutral-800/80 bg-neutral-950 px-6 shadow-sm md:px-12 lg:px-20"
       >
-        <AnimatedShaderBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-[92vh] w-full opacity-80" />
+        {introComplete ? (
+          <AnimatedShaderBackground className="pointer-events-none absolute inset-0 z-0 h-full min-h-[92vh] w-full opacity-80" />
+        ) : (
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-0 z-0 h-full min-h-[92vh] w-full opacity-80",
+              heroShaderBackdropClassName
+            )}
+            aria-hidden
+          />
+        )}
 
         <div
           className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-neutral-950/25 via-neutral-950/45 to-neutral-950/70"
@@ -166,13 +201,20 @@ export function LandingPage() {
                   />
                 </div>
                 <div className="relative z-10 aspect-[3/4] w-full overflow-hidden rounded-2xl border border-neutral-800/90 bg-neutral-900 shadow-[0_0_40px_-12px_rgba(59,130,246,0.35)] ring-1 ring-blue-500/15">
-                  <Image
-                    src="/images/20260403002505_61_11.jpg"
-                    alt="Tianlei(Kai) Miao"
-                    fill
-                    className="object-cover object-top transition-transform duration-700 ease-out hover:scale-[1.02]"
-                    sizes="(max-width: 768px) 100vw, 320px"
-                  />
+                  <picture className="absolute inset-0 block h-full w-full">
+                    <source
+                      srcSet={`${assetBase}/images/20260403002505_61_11.webp`}
+                      type="image/webp"
+                    />
+                    <Image
+                      src="/images/20260403002505_61_11.jpg"
+                      alt="Tianlei(Kai) Miao"
+                      fill
+                      priority
+                      className="object-cover object-top transition-transform duration-700 ease-out hover:scale-[1.02]"
+                      sizes="(max-width: 768px) 100vw, 320px"
+                    />
+                  </picture>
                 </div>
                 <div className="hero2-corner-tl z-20" aria-hidden />
                 <div className="hero2-corner-br z-20" aria-hidden />
